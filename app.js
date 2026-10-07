@@ -14,6 +14,7 @@ const MINIMUM = [
 ];
 let weekStart = mondayOf(new Date());
 let reservations = [];
+let weekLoadGeneration = 0, availabilityReady = false, availabilityMessage = "Checking…";
 const grid = document.querySelector("#calendarGrid");
 const status = document.querySelector("#status");
 const dialog = document.querySelector("#bookingDialog");
@@ -38,26 +39,37 @@ function render(){
     const list=day.querySelector(".slot-list");
     slotsFor(date).forEach(slot=>{
       const existing=reservationFor(date,slot), past=isPast(date,slot), button=document.createElement("button");
-      button.className=`slot ${existing?"booked":""} ${past?"past":""}`;button.disabled=Boolean(existing||past);
-      button.innerHTML=existing?`<strong>${slot.label} · Booked</strong><span>${escapeHtml(existing.course||"Reserved")} · ${escapeHtml(existing.teacherName||"Teacher")}</span>`:`<strong>${slot.label}</strong><span>${displayTime(slot.start)}–${displayTime(slot.end)} · Available</span>`;
-      if(!existing&&!past)button.addEventListener("click",()=>openBooking(date,slot));list.append(button);
+      button.className=`slot ${existing?"booked":""} ${past?"past":""}`;button.disabled=Boolean(!availabilityReady||existing||past);
+      button.innerHTML=!availabilityReady?`<strong>${slot.label}</strong><span>${displayTime(slot.start)}–${displayTime(slot.end)} · ${availabilityMessage}</span>`:existing?`<strong>${slot.label} · Booked</strong><span>${escapeHtml(existing.course||"Reserved")} · ${escapeHtml(existing.teacherName||"Teacher")}</span>`:`<strong>${slot.label}</strong><span>${displayTime(slot.start)}–${displayTime(slot.end)} · Available</span>`;
+      if(availabilityReady&&!existing&&!past)button.addEventListener("click",()=>openBooking(date,slot));list.append(button);
     });grid.append(day);
   }
 }
 function escapeHtml(v){const d=document.createElement("div");d.textContent=v;return d.innerHTML}
-function openBooking(date,slot){form.reset();document.querySelector("#bookingDate").value=ymd(date);document.querySelector("#bookingSlot").value=slot.id;document.querySelector("#slotHeading").textContent=`${slot.label} · ${date.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"})}`;document.querySelector("#formMessage").textContent="";dialog.showModal()}
+function openBooking(date,slot){if(!availabilityReady||reservationFor(date,slot)||isPast(date,slot))return;form.reset();document.querySelector("#bookingDate").value=ymd(date);document.querySelector("#bookingSlot").value=slot.id;document.querySelector("#slotHeading").textContent=`${slot.label} · ${date.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"})}`;document.querySelector("#formMessage").textContent="";dialog.showModal()}
 
 function jsonp(params){return new Promise((resolve,reject)=>{const cb=`labCb_${Date.now()}_${Math.random().toString(36).slice(2)}`;const script=document.createElement("script");const timer=setTimeout(()=>done(new Error("The calendar service did not respond.")),15000);function done(err,data){clearTimeout(timer);delete window[cb];script.remove();err?reject(err):resolve(data)}window[cb]=data=>done(null,data);script.onerror=()=>done(new Error("Unable to reach the calendar service."));const url=new URL(CONFIG.apiUrl);Object.entries({...params,callback:cb}).forEach(([k,v])=>url.searchParams.set(k,v));script.src=url;document.body.append(script)})}
 async function loadWeek(){
-  if(!CONFIG.apiUrl){document.querySelector("#setupWarning").hidden=false;reservations=[];render();return}
+  const generation=++weekLoadGeneration,requestedWeek=new Date(weekStart);
+  availabilityReady=false;availabilityMessage="Checking…";reservations=[];render();
+  if(!CONFIG.apiUrl){document.querySelector("#setupWarning").hidden=false;availabilityMessage="Service not connected";status.textContent="Connect the calendar service to check availability.";render();return false}
   status.textContent="Checking availability…";
-  try{const result=await jsonp({action:"availability",start:ymd(weekStart),end:ymd(addDays(weekStart,5))});if(!result.ok)throw new Error(result.error);reservations=result.reservations||[];render();status.textContent=""}catch(e){status.textContent=e.message;render()}
+  try{
+    const result=await jsonp({action:"availability",start:ymd(requestedWeek),end:ymd(addDays(requestedWeek,5))});
+    if(generation!==weekLoadGeneration)return null;
+    if(!result.ok)throw new Error(result.error||"Could not check availability.");
+    if(!Array.isArray(result.reservations))throw new Error("The calendar returned incomplete availability. Try again.");
+    reservations=result.reservations;availabilityReady=true;render();status.textContent="";return true;
+  }catch(e){
+    if(generation!==weekLoadGeneration)return null;
+    reservations=[];availabilityMessage="Availability unknown";status.textContent=e.message+" Booking is disabled until availability is checked. Use Today or the week controls to retry.";render();return false;
+  }
 }
 form.addEventListener("submit",async e=>{
   e.preventDefault();if(!CONFIG.apiUrl){document.querySelector("#formMessage").textContent="Connect the Apps Script deployment before booking.";return}
   const data=Object.fromEntries(new FormData(form));const selectedDate=new Date(`${data.date}T12:00:00`);const cutoff=addDays(new Date(),CONFIG.nonPriorityAdvanceDays);cutoff.setHours(23,59,59,999);
   if(!PRIORITY.has(data.course)&&selectedDate>cutoff){document.querySelector("#formMessage").textContent=`Non-priority courses may reserve up to ${CONFIG.nonPriorityAdvanceDays} days ahead.`;return}
   const submit=document.querySelector("#submitBooking");submit.disabled=true;submit.textContent="Reserving…";document.querySelector("#formMessage").textContent="";
-  try{const result=await jsonp({action:"book",...data,needsPrep:data.needsPrep?"yes":"no"});if(!result.ok)throw new Error(result.error);dialog.close();await loadWeek();status.textContent="Reservation confirmed and added to Google Calendar."}catch(err){document.querySelector("#formMessage").textContent=err.message}finally{submit.disabled=false;submit.textContent="Reserve lab"}
+  try{const result=await jsonp({action:"book",...data,needsPrep:data.needsPrep?"yes":"no"});if(!result.ok)throw new Error(result.error);dialog.close();const refreshed=await loadWeek();if(refreshed===true)status.textContent="Reservation confirmed and added to Google Calendar.";else if(refreshed===false)status.textContent="Reservation confirmed. "+status.textContent}catch(err){document.querySelector("#formMessage").textContent=err.message}finally{submit.disabled=false;submit.textContent="Reserve lab"}
 });
 document.querySelector("#prevWeek").onclick=()=>{weekStart=addDays(weekStart,-7);loadWeek()};document.querySelector("#nextWeek").onclick=()=>{weekStart=addDays(weekStart,7);loadWeek()};document.querySelector("#today").onclick=()=>{weekStart=mondayOf(new Date());loadWeek()};document.querySelector("#closeDialog").onclick=()=>dialog.close();document.querySelector("#cancelBooking").onclick=()=>dialog.close();loadWeek();
