@@ -1,0 +1,65 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Everett Alvarez Science Department Inventory</title>
+<style>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;color:#19324b;background:#f4f7fa}*{box-sizing:border-box}body{margin:0}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{opacity:.55;cursor:wait}
+.shell{max-width:1480px;margin:auto;padding:0 26px 50px}.top{background:#123257;color:white}.head{max-width:1480px;margin:auto;padding:20px 26px;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;gap:14px;align-items:center}.mark{width:42px;height:42px;border:2px solid #e2b85d;color:#e2b85d;border-radius:12px;display:grid;place-items:center;font-size:23px}.brand b{font-size:20px;letter-spacing:-.03em}.brand small{display:block;color:#bdd0e0;font-size:12px;margin-top:2px}.head .hint{font-size:12px;color:#c9d9e8}.tabs{display:flex;gap:5px;overflow:auto;margin:25px 0}.tab{border:0;background:transparent;color:#526b7f;border-radius:9px;padding:11px 17px;font-weight:650;white-space:nowrap}.tab.active{color:#123257;background:#fff;box-shadow:0 2px 12px #1e415112}.title{display:flex;align-items:end;justify-content:space-between;gap:14px;margin:0 0 20px}.title h1{margin:0;font-size:26px;letter-spacing:-.04em}.muted{color:#677c8f}.title p{margin:6px 0 0}.btn{background:#123e69;color:white;border:1px solid #123e69;border-radius:9px;padding:10px 15px;font-weight:650}.btn:hover{background:#0c3154}.btn.secondary{background:white;border-color:#cbd7df;color:#234562}.btn.gold{background:#e5b758;border-color:#e5b758;color:#22394e}.btn.small{font-size:12px;padding:6px 9px}.btn.danger{color:#a13631}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:22px}.card,.panel{background:#fff;border:1px solid #e1e8ee;border-radius:13px;box-shadow:0 4px 18px #19334b08}.card{padding:19px}.card small{color:#687e90;font-weight:650}.card strong{display:block;font-size:30px;margin:11px 0 2px;letter-spacing:-.04em}.card .sub{color:#7f91a1;font-size:12px}.panel{padding:20px;margin-bottom:17px}.panel h2{margin:0 0 14px;font-size:17px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px}.toolbar input{flex:1;min-width:215px}.field,input,select,textarea{border:1px solid #cbd7df;border-radius:8px;background:#fff;padding:10px;color:#19324b;min-width:0}textarea{width:100%;resize:vertical}.toolbar select{min-width:155px}label{display:block;font-size:12px;color:#425d72;font-weight:700;margin-bottom:6px}label input,label select,label textarea{display:block;width:100%;margin-top:6px;font-weight:400}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 17px}.full{grid-column:1/-1}.formactions{margin-top:18px;display:flex;gap:9px;justify-content:flex-end}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;text-align:left;min-width:700px}th{color:#6a8192;font-size:11px;letter-spacing:.06em;text-transform:uppercase;background:#f7f9fb;font-weight:750}td,th{padding:11px 10px;border-bottom:1px solid #edf1f4;vertical-align:middle}td{font-size:13px}tr:last-child td{border-bottom:0}.itemname{font-weight:700;color:#173a5b}.detail{font-size:11px;color:#748a9b;margin-top:3px}.pill{display:inline-block;border-radius:99px;padding:4px 9px;background:#e9f2fa;color:#24557b;font-size:11px;font-weight:700}.pill.warn{background:#fff0db;color:#9b5c17}.pill.red{background:#fce9e8;color:#ae3d39}.pill.green{background:#e8f6ed;color:#26764a}.empty{text-align:center;color:#72899b;padding:30px}.notice{padding:12px 14px;border-radius:9px;background:#e9f4ec;color:#205d40;margin:0 0 15px}.notice.error{background:#fce9e8;color:#a23430}.warningbox{background:#fff8e8;border-left:3px solid #dcac4e;padding:11px 13px;color:#76551d;font-size:13px}.box{background:#f7f9fb;border:1px solid #e6edf1;border-radius:10px;padding:17px}.box p{line-height:1.5}.steps{margin:0;padding-left:20px;line-height:1.85;color:#456076}dialog{border:1px solid #dbe5ec;border-radius:15px;padding:0;box-shadow:0 24px 70px #071b3180;width:min(660px,calc(100vw - 24px));max-height:90vh}dialog::backdrop{background:#0d2336a8}.modalhead{padding:18px 22px;background:#f7f9fb;border-bottom:1px solid #e6edf1;display:flex;justify-content:space-between;align-items:center}.modalhead h2{margin:0;font-size:19px}.modalbody{padding:20px 22px;overflow:auto;max-height:calc(90vh - 65px)}.close{border:0;background:transparent;font-size:24px;color:#627b8e}.csv-preview{max-height:270px;overflow:auto}a{color:#1e608f}.right{text-align:right}input[type=file]{width:100%}@media(max-width:850px){.cards{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.head .hint{display:none}}@media(max-width:540px){.shell{padding:0 13px 35px}.head{padding:15px}.cards{gap:9px}.card{padding:13px}.card strong{font-size:24px}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.title{align-items:start;flex-direction:column}}
+.quote-row{border:1px solid var(--line,#dce3eb);border-radius:12px;margin:14px 0;padding:16px}.quote-row legend{padding:0 8px;font-weight:700}.costcards .card strong{font-size:clamp(22px,2.3vw,34px);overflow-wrap:anywhere}.costcards{margin-top:16px}
+
+:root{color-scheme:dark;color:#f3f5fa;background:#050b17}body{background:#050b17;color:#f3f5fa}.top{background:#09182c;border-bottom:1px solid #1d3250}.brand b{font-family:Georgia,serif;font-size:22px}.brand small{color:#bdcadb}.tabs .tab{color:#bdcadb}.tab.active{background:#10243d;color:#f5dc8c;border:1px solid #365080}.card,.panel,.box{background:#0c1b30;border-color:#1d3250;color:#f3f5fa}.title h1,h2{font-family:Georgia,serif}.muted,.detail,.sub{color:#bdcadb}.card strong{color:#f5dc8c}.btn{background:#ddbb52;border-color:#ddbb52;color:#07111f}.btn:hover{background:#f5dc8c}.btn.secondary{background:#10243d;border-color:#365080;color:#f3f5fa}.btn.gold{background:#ddbb52}.tabs{padding-bottom:4px}input,select,textarea{background:#050e1d;border-color:#365080;color:#f3f5fa}th{background:#071221;color:#ddbb52}td{border-color:#1d3250}.pill{background:#10243d;color:#bdd6fb;border:1px solid #365080}.pill.warn,.warningbox{background:#59442133;color:#f5dc8c;border-color:#665b3b}.pill.red{background:#52203366;color:#ffc0cb}.notice{background:#59442133;color:#f5dc8c;border-color:#665b3b}.notice.error{background:#52203366;color:#ffc0cb;border-color:#853b50}dialog{background:#0c1b30;border:1px solid #1d3250;color:#f3f5fa}.modalhead{background:#10243d;border-color:#1d3250}.close{color:#bdcadb}.toolbar{color:#f3f5fa}a{color:#f5dc8c}.card small{color:#bdcadb}.costcards .card strong{color:#f5dc8c}
+/* Readable text on the department navy theme. */
+.itemname{color:#d7e7ff}.steps,label,.empty{color:#bdcadb}.card .sub{color:#bdcadb}.pill.green{background:#12372a;color:#a8e8c4}.progress{color:#bdcadb}input::placeholder,textarea::placeholder{color:#adbbcd;opacity:1}
+</style></head><body>
+<header class="top"><div class="head"><div class="brand"><div class="mark">⚗</div><div><b>Everett Alvarez Science</b><small>Department inventory · equipment and supplies</small></div></div><div class="row"><span class="hint" id="mode"></span><a class="btn gold" href="https://script.google.com/a/macros/salinasuhsd.org/s/AKfycbx5wsf3Np-WKwCRUWLL2tjTP1Y7YpOdoJlv4B_3R0U5Tkx_tnaj5Xeo3XthRXNyXy8rSw/exec?page=hub" target="_top" style="text-decoration:none">Home</a></div></div></header>
+<main class="shell"><nav class="tabs" id="tabs"></nav><div id="notice"></div><div id="view"><section class="panel" role="status"><h1>Loading shared inventory…</h1><p>Connecting to the department Google Sheet.</p></section></div></main><dialog id="modal"></dialog>
+<script>
+(function () {
+  var inventoryUrl = 'https://script.google.com/a/macros/salinasuhsd.org/s/AKfycbx5wsf3Np-WKwCRUWLL2tjTP1Y7YpOdoJlv4B_3R0U5Tkx_tnaj5Xeo3XthRXNyXy8rSw/exec';
+  var failed = false;
+  var timer;
+  window.__inventoryClientReady = false;
+  document.getElementById('mode').textContent = 'Loading…';
+  function failure(message) {
+    failed = true;
+    clearTimeout(timer);
+    var view = document.getElementById('view');
+    view.textContent = '';
+    var box = document.createElement('section'); box.className = 'panel'; box.setAttribute('role', 'alert');
+    var heading = document.createElement('h1'); heading.textContent = 'Inventory could not load';
+    var detail = document.createElement('p'); detail.textContent = message;
+    var reload = document.createElement('a'); reload.className = 'btn'; reload.style.textDecoration = 'none'; reload.textContent = 'Reopen inventory'; reload.href = inventoryUrl; reload.target = '_top';
+    var help = document.createElement('p'); help.className = 'muted'; help.textContent = 'Your inventory remains saved. If this persists, send the complete error above.';
+    box.appendChild(heading); box.appendChild(detail); box.appendChild(reload); box.appendChild(help); view.appendChild(box);
+  }
+  window.addEventListener('error', function (e) {
+    failure((e.message || 'Page script failed.') + (e.lineno ? ' - line ' + e.lineno + ', column ' + (e.colno || 0) : '') + (e.filename ? ' - ' + e.filename : ''));
+  });
+  window.addEventListener('unhandledrejection', function (e) {
+    failure(e.reason && e.reason.message ? e.reason.message : String(e.reason || 'Startup request failed.'));
+  });
+  if (!(window.google && google.script && google.script.run)) {
+    failure('Open the deployed inventory /exec link. This page connects through Google Apps Script.');
+    return;
+  }
+  // Start loading inventory data now, in parallel with the interface code (saves one full server round trip).
+  window.__inventoryDataPromise = new Promise(function (resolve, reject) {
+    google.script.run.withSuccessHandler(resolve).withFailureHandler(function (e) { reject(e instanceof Error ? e : new Error(e && e.message ? e.message : String(e))); }).getData();
+  });
+  window.__inventoryDataPromise.catch(function () {}); // InventoryClient retries on failure; avoid an early "unhandled" alert.
+  timer = setTimeout(function () {
+    failure('Google has not returned the inventory interface after 45 seconds. Reopen the inventory or check the latest Apps Script execution.');
+  }, 45000);
+  google.script.run.withSuccessHandler(function (source) {
+    clearTimeout(timer);
+    if (typeof source !== 'string' || !source.trim()) { failure('The server returned no interface code. Add InventoryClient.html and deploy all three files together.'); return; }
+    try {
+      failed = false;
+      var script = document.createElement('script');
+      script.textContent = source + '\n//# sourceURL=EAHS-Inventory-Client-v4.js';
+      document.body.appendChild(script);
+      if (!window.__inventoryClientReady && !failed) failure('The inventory interface did not start. Confirm InventoryClient.html was copied completely, then deploy a new version.');
+    } catch (e) { failure(e.message || String(e)); }
+  }).withFailureHandler(function (e) { failure(e && e.message ? e.message : String(e)); }).getInventoryClient();
+})();
+</script>
+</body></html>
